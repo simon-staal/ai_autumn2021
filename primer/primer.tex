@@ -1,0 +1,85 @@
+\documentclass{report}
+\usepackage[utf8]{inputenc}
+\usepackage{enumitem}
+\usepackage{graphicx}
+
+\graphicspath{ {./images} }
+
+%%% FORMATTING %%%
+\usepackage{geometry}
+\geometry{
+    a4paper,
+    left=25mm,
+    right=25mm,
+    top=10mm,
+    bottom=20mm,
+}
+
+\newcommand{\code}[1]{\texttt{#1}}
+
+\begin{document}
+
+\chapter{Chapter 1 exercises}
+\section{\textbf{Exercise 1.1}}
+\begin{enumerate}[label=(\alph*)]
+    \item \emph{Which of the following are valid Prolog atoms?}
+    
+    This was verified in SWI-Prolog using \code{atom()}
+    \begin{itemize}[label={}]
+        \item \code{f}: Valid 
+        \item \code{loves(john, mary)}: Invalid, this is a compound term
+        \item \code{Mary}: Invalid, this is a variable
+        \item \code{\_c1}: Invalid, this is a variable
+        \item \code{'Hello'}: Valid, you can use single quotes to make any string an atom
+        \item \code{this\_is\_it}: Valid
+    \end{itemize}
+
+    \item \emph{Which of the following are valid names for Prolog vairables?}
+    
+    This was verified in SWI-Prolog using \code{var()}
+    \begin{itemize}[label={}]
+        \item \code{a}: Invalid, must start with uppercase or underscore
+        \item \code{A}: Valid
+        \item \code{Paul}: Valid
+        \item \code{'Hello'}: Invalid, single quotes denote atoms
+        \item \code{a\_123}: Invalid
+        \item \code{\_ }: Valid, anonymous variable
+        \item \code{\_abc}: Valid
+        \item \code{x2}: Valid
+    \end{itemize}
+
+    \item \emph{What would a Prolog interpreter reply given the following query?}
+
+    \centerline{\code{?- f(a, b) = f(X, Y).}}
+    
+    The interpreter would instantiate X = a and Y = b, as this will evaluate the query to be true: \\
+    \code{X = a} \\
+    \code{Y = b} \\
+    \code{true} \\
+
+    \item \emph{Would the following query succeed?}
+    
+    \centerline{\code{?- loves(mary, john) = loves(John, Mary).}}
+
+    This query would suceed. Both John and Mary are variables, so the interpreter would instantiate John = john and Mary = mary, causing the statements to match.
+
+    \item \emph{Assume a program consisting only of the fact }  \code{a(B, B).} \emph{has been consulted by Prolog. How will the system react to the following query?}
+    
+    \centerline{\code{?- a(1, X), a(X, Y), a(Y, Z), a(Z, 100).}}
+
+    Prolog will return \textbf{false}. The first query causes X = 1, the subsequent query causes Y = 1, then Z = 1, and the final query will fail as 1 and 100 are different.
+
+\end{enumerate}
+
+\section{\textbf{Exercise 1.2}}
+Understand and explain the following queries:
+\begin{enumerate}[label=(\alph*)]
+
+    \item \code{?- myFunctor(1, 2) = X, X = myFunctor(Y, Y).}
+    
+    The interpreter will instantiate X = myFunctor(1, 2) to match the first clause. On the following clause, the equality fails, as the numbers inside the compound term X are not the same. As Y cannot be instantiated to both 1 and 2, the query is \textbf{false}.
+
+\end{enumerate}
+
+
+\end{document}
