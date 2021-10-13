@@ -29,8 +29,9 @@
 
 \begin{document}
 
-\chapter{Chapter 1 exercises}
-\section{\textbf{Exercise 1.1}}
+\chapter*{Chapter 1 exercises}
+This document contains the solutions for the exercises going through the prolog primer to prepare for AI.
+\section*{\textbf{Exercise 1.1}}
 \begin{enumerate}[label=(\alph*)]
     \item \emph{Which of the following are valid Prolog atoms?}
     
@@ -81,7 +82,7 @@
 
 \end{enumerate}
 
-\section{\textbf{Exercise 1.2}}
+\section*{\textbf{Exercise 1.2}}
 Understand and explain the following queries:
 \begin{enumerate}[label=(\alph*)]
 
@@ -99,7 +100,7 @@ Understand and explain the following queries:
 
 \end{enumerate}
 
-\section{\textbf{Exercise 1.3}}
+\section*{\textbf{Exercise 1.3}}
 \emph{Draw the family tree corresponding to the following Prolog program:}
 
 \noindent\emph{N.B. I couldn't be bothered writing out everything, for reference see Exercise 1.3 of \href{run:./PrologPrimer.pdf}{PrologPrimer.pdf}}
@@ -109,6 +110,21 @@ Understand and explain the following queries:
     \includegraphics[width=1\textwidth]{Family_Tree.png}
     \label{fig:Family_Tree}
 \end{figure}
+
+\noindent\emph{Define ne predicates (in terms of rules using male/1, female/1 and parent/2) for the following family relations: (/x denotes the number of 'arguments')}
+
+\begin{enumerate}[label=(\alph*)]
+    \item \code{father(X, Y) :- parent(X, Y), male(X)}
+    \item \code{sister(X, Y) :- parent(A, X), parent(A, Y), parent(B, X), parent(B, Y), female(X)}
+    \item \code{grandmother(X, Y) :- parent(Z, Y), parent(X, Z), female(X)}
+    \item \code{cousin(X, Y) :- grandparent(Z, X), grandparent(Z, Y), notsibling(X, Y)}
+    
+    \code{grandparent(X, Y) :- parent(Z, Y), parent(X, Z)}
+
+    \code{notsibling(X, Y) :- parent(A, X), parent(B, X), \textbackslash+ parent(A, Y), \textbackslash+ parent(B, Y)}
+    
+
+\end{enumerate}
 
 
 
