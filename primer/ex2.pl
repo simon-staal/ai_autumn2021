@@ -83,7 +83,7 @@ generate(X, S, P) :-
         append([Temp], Rest, P), % Append the new term to the rest of the terms generated, and store that in P
         !. % We don't want backtracking from here
 
-power([], [[]]). % Base casae for power set
+power([], [[]]). % Base case for power set
 
 power(Set, P) :-
         Set = [H| T], % Split our set into Head and Tail
