@@ -115,13 +115,13 @@ Understand and explain the following queries:
 
 \begin{enumerate}[label=(\alph*)]
     \item \code{father(X, Y) :- parent(X, Y), male(X)}
-    \item \code{sister(X, Y) :- parent(A, X), parent(A, Y), parent(B, X), parent(B, Y), female(X)}
+    \item \code{sister(X, Y) :- parent(A, X), parent(A, Y), A \= B, parent(B, X), parent(B, Y), female(X)}
     \item \code{grandmother(X, Y) :- parent(Z, Y), parent(X, Z), female(X)}
     \item \code{cousin(X, Y) :- grandparent(Z, X), grandparent(Z, Y), notsibling(X, Y)}
     
     \code{grandparent(X, Y) :- parent(Z, Y), parent(X, Z)}
 
-    \code{notsibling(X, Y) :- parent(A, X), parent(B, X), \textbackslash+ parent(A, Y), \textbackslash+ parent(B, Y)}
+    \code{notsibling(X, Y) :- parent(A, X), A \= B, parent(B, X), \textbackslash+ parent(A, Y), \textbackslash+ parent(B, Y)}
     
 
 \end{enumerate}
