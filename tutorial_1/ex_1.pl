@@ -123,8 +123,62 @@ sieve([H|T], X, [H|R]) :-
 % Partition a list into two lists
 % partition(List, Elem, L1, L2)
 
-partition([X|L2], X, [], [X|L2]).
+partition([], _, [], []).
 
 partition([H|T], X, [H|L1], L2) :-
-    dif(H, X),
+    H < X,
     partition(T, X, L1, L2).
+
+partition([H|T], X, L1, [H|L2]) :-
+    H > X,
+    partition(T, X, L1, L2).
+
+% Sort a list using quicksort algorithm
+%quicksort(List, SortedList)
+
+quicksort([], []).
+
+quicksort([H|T], Res) :-
+    partition(T, H, L, R),
+    quicksort(L, Lsorted),
+    quicksort(R, Rsorted),
+    append(Lsorted, [H|Rsorted], Res).
+
+
+% subset
+% subset(L1, L2) = is L1 a subset of L2
+subset([], _).
+
+subset([H|T], L) :-
+    find(H, L),
+    subset(T,  L).
+
+% Intersection
+% intersection(List1, List2, Result)
+
+intersection([], _, []).
+
+intersection([H|T], L, [H|Res]) :-
+    find(H, L),
+    del_one(H, L, Lnext),
+    !, % No backtracking
+    intersection(T, Lnext, Res).
+
+intersection([H|T], L, Res) :-
+    \+ find(H, L),
+    intersection(T, L, Res).
+
+
+% Union
+
+union([], L, L).
+
+union([H|T], L, [H|Res]) :-
+    \+ find(H, L),
+    !,
+    union(T, L, Res).
+
+union([H|T], L, Res) :-
+    find(H, L),
+    !,
+    union(T, L, Res).
