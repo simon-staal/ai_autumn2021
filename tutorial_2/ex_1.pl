@@ -26,6 +26,7 @@ state_change(empty5, (S, F), (S, 0)) :-
 state_change(pour7to5, (S, F), (R, 5)) :-
     Total is S + F,
     Total > 5,
+    F < 5,
     R is Total - 5.
 
 state_change(pour7to5, (S, F), (0, R)) :-
@@ -35,6 +36,7 @@ state_change(pour7to5, (S, F), (0, R)) :-
 state_change(pour5to7, (S, F), (7, R)) :-
     Total is S + F,
     Total > 7,
+    S < 7,
     R is Total - 7.
 
 state_change(pour5to7, (S, F), (R, 0)) :-
@@ -44,11 +46,11 @@ state_change(pour5to7, (S, F), (R, 0)) :-
 goal_state((4, _)).
 
 % Converts state to a node
-make_node(_, NewState, NewState).
+make_node(Rule, NewState, (NewState, Rule)).
 
-% Finds state of a node, in this case our node == state
-state_of(State, State).
+% Finds state of a node, we are including rules as part of the node so we strip that part to find our state
+state_of((State, _), State).
 
 % Initial state and query:
-% search( [[(0, 0)]], SolnPath).
+% search( [[((0, 0), init)]], SolnPath).
 % SolnPath = [(4, 5),  (7, 2),  (0, 2),  (2, 0),  (2, 5),  (7, 0),  (0, 0)].

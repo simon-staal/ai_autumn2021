@@ -4,8 +4,8 @@
 search(Graph, [Node|Path]):-
 	choose([Node|Path], Graph,_),
 	state_of(Node, State),
-	goal_state(State),
-    !. % This cut is for breadth-first search only, find 1 optimal solution
+	goal_state(State)
+    . % This cut is for breadth-first search only, find 1 optimal solution
 
 search(Graph, SolnPath) :-
 	choose(Path, Graph, OtherPaths), % Defined in graph search algorithm
@@ -16,9 +16,9 @@ search(Graph, SolnPath) :-
 one_step_extensions([Node|Path], NewPaths):-
 	state_of(Node, State),
 	findall([NewNode,Node|Path],
-		(state_change(_, State, NewState), % Defined in state-space representation
+		(state_change(Rule, State, NewState), % Defined in state-space representation
 		 new_state_on_path( NewState, Path ),
-		 make_node(Node, NewState, NewNode)), % Also defined in state-space representation
+		 make_node(Rule, NewState, NewNode)), % Also defined in state-space representation
 	NewPaths).
 
 new_state_on_path( _, [] ).

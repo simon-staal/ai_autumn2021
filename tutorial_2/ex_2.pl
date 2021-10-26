@@ -25,10 +25,10 @@ goal_state([i,n]).
 
 % Converts state to a node
 % In this case, our state and our node is the same
-make_node(_, NewState, NewState).
+make_node(Rule, NewState, (NewState, Rule)).
 
 % Finds state of a node, in this case our node == state
-state_of(State, State).
+state_of((State, _), State).
 
 % Initial state and query:
 % search([[[i, s]]], SolnPath).
