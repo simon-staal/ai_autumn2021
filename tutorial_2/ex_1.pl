@@ -44,7 +44,7 @@ state_change(pour5to7, (S, F), (R, 0)) :-
 goal_state((4, _)).
 
 % Converts state to a node
-make_node(_, NewState, (NewState)).
+make_node(_, NewState, NewState).
 
 % Finds state of a node, in this case our node == state
 state_of(State, State).

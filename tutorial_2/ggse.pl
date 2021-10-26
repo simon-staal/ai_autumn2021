@@ -5,20 +5,20 @@ search(Graph, [Node|Path]):-
 	choose([Node|Path], Graph,_),
 	state_of(Node, State),
 	goal_state(State),
-    !.
+    !. % This cut is for breadth-first search only, find 1 optimal solution
 
 search(Graph, SolnPath) :-
-	choose(Path, Graph, OtherPaths),
+	choose(Path, Graph, OtherPaths), % Defined in graph search algorithm
 	one_step_extensions( Path, NewPaths),
-	add_to_paths(NewPaths, OtherPaths, GraphPlus),
+	add_to_paths(NewPaths, OtherPaths, GraphPlus), % Also defined in graph search algorithm
 	search(GraphPlus, SolnPath).
 
 one_step_extensions([Node|Path], NewPaths):-
 	state_of(Node, State),
 	findall([NewNode,Node|Path],
-		(state_change(_, State, NewState),
+		(state_change(_, State, NewState), % Defined in state-space representation
 		 new_state_on_path( NewState, Path ),
-		 make_node(Node, NewState, NewNode)),
+		 make_node(Node, NewState, NewNode)), % Also defined in state-space representation
 	NewPaths).
 
 new_state_on_path( _, [] ).
