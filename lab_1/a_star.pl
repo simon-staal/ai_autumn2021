@@ -1,4 +1,4 @@
-% Implements breadth first search
+% Implements A* search
 choose(Path, [Path|OtherPaths], OtherPaths).
 
 add_to_paths(NewPaths, OtherPaths, AllPaths) :-

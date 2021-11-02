@@ -53,3 +53,7 @@ swap(T1, T2, [(X, Y, T3)|Tail], [(X, Y, T3)|Res]) :-
     T1 \= T3,
     T2 \= T3,
     swap(T1, T2, Tail, Res).
+
+make_node(_, NewState, NewState).
+
+state_of(State, State).
