@@ -15,10 +15,13 @@ search(Graph, SolnPath) :-
 
 one_step_extensions([Node|Path], NewPaths):-
 	state_of(Node, State),
+	gcost_of(Node, GPath), % Cost is # of moves
 	findall([NewNode,Node|Path],
-		(state_change(Rule, State, NewState), % Defined in state-space representation
-		 new_state_on_path( NewState, Path ),
-		 make_node(Rule, NewState, NewNode)), % Also defined in state-space representation
+		(state_change(Rule, State, NewState, HCost), % Defined in state-space representation
+		Gactual is GPath + 1,
+		FCost is Gactual + HCost,
+		new_state_on_path( NewState, Path ),
+		make_node(Rule, NewState, Gactual, FCost, NewNode)), % Also defined in state-space representation
 	NewPaths).
 
 new_state_on_path( _, [] ).

@@ -1,8 +1,27 @@
 % Implements A* search
+% Paths are sorted by FCost
 choose(Path, [Path|OtherPaths], OtherPaths).
 
+% Ensure our paths maintain sorted order when we add to graph
 add_to_paths(NewPaths, OtherPaths, AllPaths) :-
-    append(OtherPaths, NewPaths, AllPaths).
+    insert_in_order(NewPaths, OtherPaths, AllPaths).
+
+insert_in_order([], Graph, Graph).
+
+insert_in_order([Path|Paths], OtherPaths, Graph) :-
+    insert_one(Path, OtherPaths, OtherPathsPlus),
+    insert_in_order(Paths, OtherPathsPlus, Graph).
+
+insert_one([Node1|Path1], [[Node2|Path2] | Paths], Graph) :-
+    fcost_of(Node1, F1),
+    fcost_of(Node2, F2),
+    F1 < F2, !,
+    Graph = [[Node1|Path1], [Node2|Path2] | Paths].
+
+insert_one(Path, [CheaperPath|Paths], [CheaperPath|Graph]) :-
+    insert_one(Path, Paths, Graph).
+
+insert_one(Path, [], [Path]).
 
 % Heuristics
 out_of_place([], [], 0).

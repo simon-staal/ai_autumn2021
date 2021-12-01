@@ -16,14 +16,21 @@ Initial state:
 
 Goal state:
 [(1, 1, a), (1, 2, b), (1, 3, c), (2, 1, d), (2, 2, e), (2, 3, f), (3, 1, g), (3, 2, h), (3, 3, x)]
+
+Initial distance: 8
+=> Starting node:
+(0, 8, [(1, 1, d), (1, 2, a), (1, 3, c), (2, 1, g), (2, 2, b), (2, 3, f), (3, 1, x), (3, 2, e), (3, 3, h)])
 */
+goal_state([(1, 1, a), (1, 2, b), (1, 3, c), (2, 1, d), (2, 2, e), (2, 3, f), (3, 1, g), (3, 2, h), (3, 3, x)]).
 
 % Moves a tile up
-state_change(swap, CurrBoard, NewBoard) :-
+state_change(swap, CurrBoard, NewBoard, HCost) :-
     member((X, Y, x), CurrBoard),
     adjecent((X, Y), (X1, Y1)),
     member((X1, Y1, Tile), CurrBoard),
-    swap(x, Tile, CurrBoard, NewBoard).
+    swap(x, Tile, CurrBoard, NewBoard),
+    goal_state(Goal),
+    distance(NewBoard, Goal, HCost).
 
 adjecent((X, Y), (X1, Y)) :-
     X < 3,
@@ -45,15 +52,18 @@ adjecent((X, Y), (X, Y1)) :-
 swap(_, _, [], []).
 
 swap(T1, T2, [(X, Y, T1)|Tail], [(X, Y, T2)|Res]) :-
-    swap(T1, T2, Tail, Res).
+    swap(T1, T2, Tail, Res), !.
 swap(T1, T2, [(X, Y, T2)|Tail], [(X, Y, T1)|Res]) :-
-    swap(T1, T2, Tail, Res).
+    swap(T1, T2, Tail, Res), !.
 
 swap(T1, T2, [(X, Y, T3)|Tail], [(X, Y, T3)|Res]) :-
-    T1 \= T3,
+    T1 \= T3, % Now that i've added cuts these 2 conditions should no longer be needed?
     T2 \= T3,
     swap(T1, T2, Tail, Res).
 
-make_node(_, NewState, NewState).
+% Nodes store current cost, heuristic cost and state
+make_node(_, NewState, GCost, FCost, (GCost, FCost, NewState)).
 
-state_of(State, State).
+state_of((_, _, State), State).
+gcost_of((Gcost, _, _), Gcost).
+fcost_of((_, Fcost, _), Fcost).
